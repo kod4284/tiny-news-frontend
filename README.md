@@ -1,16 +1,20 @@
-# tiny_news
+# Tiny News
 
-Tiny news project.
+## Description
+
+Tiny New is a news aggregation application with text and audio summarization capabilities and personalization features to customize newsfeeds to catered preferences
 
 ## Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-This project is a starting point for a Flutter application.
+You should install:
 
-A few resources to get you started if this is your first Flutter project:
+* Flutter ^2.8
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Please following the official [Flutter Installation Guide](https://docs.flutter.dev/get-started/install).
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Built with
+* Flutter - Dart
+
+## License
+This project is licensed under the MIT License
