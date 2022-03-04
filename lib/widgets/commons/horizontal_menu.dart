@@ -54,11 +54,20 @@ class _HorizontalMenu extends State<HorizontalMenu> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
-      height: 50.0,
-      child: ListView(
-        // This next line does the trick.
-        scrollDirection: Axis.horizontal,
-        children: menuMaker(widget.menus, widget.onClick, _setSelected)
+      height: 49.0,
+      child: Stack(
+        children: [
+          ListView(
+            scrollDirection: Axis.horizontal,
+            children: menuMaker(widget.menus, widget.onClick, _setSelected)
+          ),
+          // Divider(thickness: 2, color: Colors.white12),
+          const Positioned(
+            bottom: -7,
+            width: 500,
+            child: Divider(thickness: 2, color: Colors.white12)
+          ),
+        ],
       ),
     );
   }
