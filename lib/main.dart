@@ -16,9 +16,12 @@ class MyApp extends StatelessWidget {
       title: 'Tiny News',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
-        scaffoldBackgroundColor: const Color(0xFF3A3A3A)
+        scaffoldBackgroundColor: const Color(0xFF3A3A3A),
       ),
-      home: const MainPage(),
+      home: const DefaultTextStyle(
+        style: TextStyle(color: Colors.white),
+        child: MainPage(),
+      )
     );
   }
 }
