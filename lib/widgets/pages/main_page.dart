@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:tiny_news/widgets/commons/horizontal_menu.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -32,7 +32,19 @@ class _MainPage extends State<MainPage> {
         ),
       body: Column(
         children: [
-
+          HorizontalMenu(
+            menus: const [
+              'All',
+              'Economics',
+              'Entertainment',
+              'Health',
+              'Lifestyles',
+              'Politices',
+              'Science',
+              'Sports'
+            ],
+            onClick: (e) => {print(e)},
+          )
         ],
       )
     );
