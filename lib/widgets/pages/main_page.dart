@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiny_news/widgets/commons/horizontal_menu.dart';
+import 'package:tiny_news/widgets/commons/news_card.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -76,6 +77,13 @@ class _MainPage extends State<MainPage> {
               'Sports'
             ],
             onClick: (e) => {print(e)},
+          ),
+          NewsCard(
+            title: "Sports News: Cricket News, Football News, Hockey News, Sports Breaking News",
+            url: "https://www.business-standard.com/article/sports/ind-vs-sl-prediction-1st-t20i-toss-india-sri-lanka-playing-11-at-hpca-122022600518_1.html",
+            cleanUrl: "business-standard.com",
+            thumbnailUrl: "https://bsmedia.business-standard.com/_media/bs/img/common/no_preview.jpg",
+            date: "2020/03/02"
           )
         ],
       )
