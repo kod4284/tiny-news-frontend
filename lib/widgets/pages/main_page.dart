@@ -106,6 +106,7 @@ class _MainPage extends State<MainPage> {
                   url: e.url,
                   thumbnailUrl: e.thumbnail,
                   cleanUrl: e.cleanUrl,
+                  summary: e.summary,
                 )).toList()
               ));
             },
