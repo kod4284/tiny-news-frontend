@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiny_news/utils/api.dart';
 import 'package:tiny_news/widgets/commons/horizontal_menu.dart';
 import 'package:tiny_news/widgets/commons/news_card.dart';
 
@@ -10,11 +11,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  int _counter = 0;
+  late Future<List<Article>> futureArticleList;
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    futureArticleList = Api.fetchNews(topic: 'all');
+    super.initState();
+  }
+
+  void refetchData(String topic) {
     setState(() {
-      _counter++;
+      futureArticleList = Api.fetchNews(topic: topic);
     });
   }
 
@@ -47,7 +54,7 @@ class _MainPage extends State<MainPage> {
                   height: 45,
                   width: 370,
                   child: TextField(
-                    onSubmitted: (e) => {print(e)},
+                    onSubmitted: (e) => {refetchData(e)},
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -76,14 +83,32 @@ class _MainPage extends State<MainPage> {
               'Science',
               'Sports'
             ],
-            onClick: (e) => {print(e)},
+            onClick: (e) => {refetchData(e)},
           ),
-          NewsCard(
-            title: "Sports News: Cricket News, Football News, Hockey News, Sports Breaking News",
-            url: "https://www.business-standard.com/article/sports/ind-vs-sl-prediction-1st-t20i-toss-india-sri-lanka-playing-11-at-hpca-122022600518_1.html",
-            cleanUrl: "business-standard.com",
-            thumbnailUrl: "https://bsmedia.business-standard.com/_media/bs/img/common/no_preview.jpg",
-            date: "2020/03/02"
+          FutureBuilder<List<Article>>(
+            future: futureArticleList,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return Container(
+                  width: 300,
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return Expanded(child: ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                children: snapshot.data!
+                    .map((e) => NewsCard(
+                  title: e.title,
+                  date: e.date,
+                  url: e.url,
+                  thumbnailUrl: e.thumbnail,
+                  cleanUrl: e.cleanUrl,
+                )).toList()
+              ));
+            },
           )
         ],
       )
