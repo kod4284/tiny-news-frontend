@@ -159,7 +159,7 @@ class _NewsCard extends State<NewsCard> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        '  Preference & Feedback',
+                        ' Preference & Feedback',
                         style: TextStyle(
                           height: 2.0,
                           color: Colors.grey.shade200,
