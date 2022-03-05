@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiny_news/widgets/commons/tiny_icon_button.dart';
 import 'package:flutter/services.dart';
+import 'package:tiny_news/widgets/pages/summary_page.dart';
 
 class NewsCard extends StatefulWidget {
   final bool isLike;
@@ -9,6 +10,7 @@ class NewsCard extends StatefulWidget {
   final String thumbnailUrl;
   final String cleanUrl;
   final String date;
+  final String summary;
 
   const NewsCard({
     Key? key,
@@ -18,6 +20,7 @@ class NewsCard extends StatefulWidget {
     required this.thumbnailUrl,
     required this.cleanUrl,
     required this.date,
+    required this.summary,
   }): super(key: key);
 
 
@@ -126,7 +129,18 @@ class _NewsCard extends State<NewsCard> {
                 ),
               ]
           ),
-          onTap: () => {},
+          onTap: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder:
+                  (context) => SummaryPage(
+                    title: widget.title,
+                    summary: widget.summary,
+                    url: widget.url,
+                  )
+              ),
+            )
+          },
         ),
     );
   }
