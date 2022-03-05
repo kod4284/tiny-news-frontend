@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiny_news/widgets/pages/original_article_page.dart';
 
 class SummaryPage extends StatelessWidget {
   final String title;
@@ -40,7 +41,14 @@ class SummaryPage extends StatelessWidget {
                 ),
                 const Divider(),
                 ElevatedButton(
-                  onPressed: () {  },
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder:
+                          (context) => OriginalArticlePage(url: url)
+                      ),
+                    );
+                  },
                   child: const Text("View original news"),
                 )
               ],
