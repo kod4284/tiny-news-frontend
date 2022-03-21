@@ -47,12 +47,18 @@ class _TTSAudioState extends State<TTSAudio> {
     final db = Localstore.instance;
     () async {
       final collection = await db.collection("storage").doc("settings").get();
-      final result = collection!['autoplay'];
-      if (result) {
+      final autoplay = collection?['autoplay'] ?? false;
+      final _volume = collection?['volume'] ?? 1.0;
+      final _pitch = collection?['pitch'] ?? 1.0;
+      final _rate = collection?['rate'] ?? 1.4;
+      if (autoplay) {
         _speak();
       }
       setState(() {
-        isAutoPlay = result;
+        isAutoPlay = autoplay;
+        volume = _volume;
+        pitch = _pitch;
+        rate = _rate;
       });
     }();
   }
@@ -157,6 +163,13 @@ class _TTSAudioState extends State<TTSAudio> {
     return items;
   }
 
+  void saveStorage(String key, var value) async {
+    final db = Localstore.instance.collection("storage").doc("settings");
+    var collection = await db.get();
+    collection![key] = value;
+    await db.set(collection);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -175,12 +188,7 @@ class _TTSAudioState extends State<TTSAudio> {
                   ),
                   value: isAutoPlay,
                   onChanged: (newValue) {
-                    () async {
-                      final db = Localstore.instance.collection("storage").doc("settings");
-                      var collection = await db.get();
-                      collection!["autoplay"] = newValue;
-                      await db.set(collection);
-                    }();
+                    saveStorage("autoplay", newValue);
                     setState(() {
                       isAutoPlay = newValue!;
                     });
@@ -270,6 +278,7 @@ class _TTSAudioState extends State<TTSAudio> {
         value: volume,
         onChanged: (newVolume) {
           setState(() => volume = newVolume);
+          saveStorage("volume", newVolume);
         },
         min: 0.0,
         max: 1.0,
@@ -282,6 +291,7 @@ class _TTSAudioState extends State<TTSAudio> {
       value: pitch,
       onChanged: (newPitch) {
         setState(() => pitch = newPitch);
+        saveStorage("pitch", newPitch);
       },
       min: 0.5,
       max: 2.0,
@@ -296,6 +306,7 @@ class _TTSAudioState extends State<TTSAudio> {
       value: rate,
       onChanged: (newRate) {
         setState(() => rate = newRate);
+        saveStorage("rate", newRate);
       },
       min: 0.2,
       max: 0.7,
