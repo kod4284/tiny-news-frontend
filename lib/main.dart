@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:localstore/localstore.dart';
 
 import 'widgets/pages/main_page.dart';
 
@@ -15,7 +16,18 @@ class MyHttpOverrides extends HttpOverrides{
 void main() async {
   await dotenv.load(fileName: ".env");
   HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
+  final db = Localstore.instance.collection("storage").doc("settings");
+  final collection = await db.get();
+  if (collection == null) {
+    db.set({
+      "autoplay": false,
+      "volume": 1,
+      "pitch": 1,
+      "rate": 1.4,
+    });
+  }
 }
 
 

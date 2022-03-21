@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 import 'dart:math';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:localstore/localstore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -23,7 +24,9 @@ class _TTSAudioState extends State<TTSAudio> {
   double pitch = 1.0;
   double rate = 0.5;
   bool isCurrentLanguageInstalled = false;
+  bool isAutoPlay = false;
   int? _inputLength;
+
 
   TtsState ttsState = TtsState.stopped;
 
@@ -37,10 +40,21 @@ class _TTSAudioState extends State<TTSAudio> {
   bool get isWeb => kIsWeb;
 
   @override
-  initState() {
+  initState () {
     super.initState();
     initTts();
     flutterTts.setLanguage("en-US");
+    final db = Localstore.instance;
+    () async {
+      final collection = await db.collection("storage").doc("settings").get();
+      final result = collection!['autoplay'];
+      if (result) {
+        _speak();
+      }
+      setState(() {
+        isAutoPlay = result;
+      });
+    }();
   }
 
   initTts() {
@@ -150,7 +164,29 @@ class _TTSAudioState extends State<TTSAudio> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
+
             _btnSection(),
+            Container(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: CheckboxListTile(
+                  title: const Text(
+                    "Auto Play",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  value: isAutoPlay,
+                  onChanged: (newValue) {
+                    () async {
+                      final db = Localstore.instance.collection("storage").doc("settings");
+                      var collection = await db.get();
+                      collection!["autoplay"] = newValue;
+                      await db.set(collection);
+                    }();
+                    setState(() {
+                      isAutoPlay = newValue!;
+                    });
+                  }
+              ),
+            ),
             _buildSliders(),
             if (isAndroid) _getMaxSpeechInputLengthSection(),
           ],
@@ -212,7 +248,7 @@ class _TTSAudioState extends State<TTSAudio> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ElevatedButton(
-          child: Text('Get max speech input length'),
+          child: const Text('Get max speech input length'),
           onPressed: () async {
             _inputLength = await flutterTts.getMaxSpeechInputLength;
             setState(() {});
@@ -238,7 +274,7 @@ class _TTSAudioState extends State<TTSAudio> {
         min: 0.0,
         max: 1.0,
         divisions: 10,
-        label: "Volume: volume");
+        label: "Volume: $volume");
   }
 
   Widget _pitch() {
