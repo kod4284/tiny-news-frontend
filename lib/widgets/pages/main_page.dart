@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiny_news/utils/api.dart';
+import 'package:tiny_news/utils/tiny_api.dart';
 import 'package:tiny_news/widgets/commons/horizontal_menu.dart';
 import 'package:tiny_news/widgets/commons/news_card.dart';
 
