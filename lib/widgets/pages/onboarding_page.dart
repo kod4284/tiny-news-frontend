@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:tiny_news/widgets/commons/tiny_group_button.dart';
+import 'package:tiny_news/widgets/commons/tiny_group_photo_button.dart';
 
 import 'package:tiny_news/widgets/pages/main_page.dart';
 
@@ -121,14 +122,32 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           ),
         ),
         PageViewModel(
-          title: "Full Screen Page",
+          title: "Customize your News",
+          footer: Container(
+            margin: EdgeInsets.only(bottom: 250),
+            child: TinyGroupPhotoButton(
+              buttonList: [
+                "latimes.com",
+                "cnn.com",
+                "foxnews.com",
+                "theatlantic.com",
+                "politico.com",
+                "9to5mac.com",
+                "abc.com",
+                "theguardian.com",
+                "yahoo.com",
+              ],
+              selected: [],
+              onSelected: (e) => print(e),
+            ),
+          ),
           body:
-          "Pages can be full screen as well.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id euismod lectus, non tempor felis. Nam rutrum rhoncus est ac venenatis.",
+          "Make TinyNews uniquely yours by setting your favorite broadcaster now.",
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
             fullScreen: true,
-            bodyFlex: 2,
-            imageFlex: 3,
+            bodyFlex: 10,
+            imageFlex: 2,
           ),
         ),
 
