@@ -14,7 +14,7 @@ class HorizontalMenu extends StatefulWidget {
   State<HorizontalMenu> createState() => _HorizontalMenu();
 }
 class _HorizontalMenu extends State<HorizontalMenu> {
-  String _selected = 'All';
+  String _selected = 'Your News';
 
   void _setSelected(String sel) {
     setState(() {
