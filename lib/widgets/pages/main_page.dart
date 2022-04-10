@@ -32,6 +32,7 @@ class _MainPage extends State<MainPage> {
         preferredSize: const Size.fromHeight(70.0),
         child: AppBar(
           elevation: 0,
+          automaticallyImplyLeading: false,
           title: Container(
               alignment: Alignment.center,
               child: const Image(
