@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:tiny_news/widgets/commons/tiny_group_button.dart';
 
 import 'package:tiny_news/widgets/pages/main_page.dart';
 
@@ -27,7 +28,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     const bodyStyle = TextStyle(color: Colors.black87, fontSize: 16.0);
 
     const pageDecoration = const PageDecoration(
-      titleTextStyle: TextStyle(color: Colors.black54, fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(color: Colors.black87, fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Color(0xE5E5E5),
@@ -88,14 +89,35 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Full Screen Page",
+          title: "Customize your News",
+          footer: Container(
+            margin: EdgeInsets.only(bottom: 250),
+            child: TinyGroupButton(
+              buttonList: [
+                "Economics",
+                "Entertainment",
+                "Health",
+                "Lifestyles",
+                "Politics",
+                "Science",
+                "Sports",
+                "Foods",
+                "Beauty",
+                "Business",
+                "Pets",
+                "Technologies"
+              ],
+              selected: ["Science"],
+              onSelected: (e) => print(e),
+            ),
+          ),
           body:
-          "Pages can be full scr",
+          "Make TinyNews uniquely yours by setting your favorite topic now.",
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
             fullScreen: true,
-            bodyFlex: 2,
-            imageFlex: 3,
+            bodyFlex: 10,
+            imageFlex: 2,
           ),
         ),
         PageViewModel(
