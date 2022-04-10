@@ -67,6 +67,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - images/tiny_news.png
+   - images/abc.png
+   - images/cnn.png
+   - images/foxnews.png
+   - images/latimes.png
+   - images/theatlantic.png
+   - images/theguardian.png
+   - images/yahoo.png
+   - images/9to5mac.png
+   - images/politico.png
    - .env
   #   - images/a_dot_ham.jpeg
 
