@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tiny_news/utils/tiny_api.dart';
 import 'package:tiny_news/widgets/commons/horizontal_menu.dart';
 import 'package:tiny_news/widgets/commons/news_card.dart';
+import 'package:tiny_news/widgets/commons/tiny_icon_button.dart';
+import 'package:tiny_news/widgets/pages/user_preference_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class _MainPage extends State<MainPage> {
 
   @override
   void initState() {
-    futureArticleList = Api.fetchNews(topic: 'all');
+    futureArticleList = Api.fetchNews(topic: 'Your News');
     super.initState();
   }
 
@@ -33,14 +35,33 @@ class _MainPage extends State<MainPage> {
         child: AppBar(
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: Container(
-              alignment: Alignment.center,
-              child: const Image(
-                  width: 210,
-                  image: AssetImage('images/tiny_news.png'),
-                  fit: BoxFit.contain
+          title: Stack(
+            children: [
+              Container(
+                  alignment: Alignment.center,
+                  child: const Image(
+                      width: 210,
+                      image: AssetImage('images/tiny_news.png'),
+                      fit: BoxFit.contain
+                  )
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 13),
+                alignment: Alignment.bottomRight,
+                child: TinyIconButton(
+                    icon: Icons.settings,
+                    width: 40,
+                    height: 40,
+                    onClick: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder:
+                      (context) => const UserPreferencePage()
+                      ));
+                    }),
               )
-            )
+            ],
+          )
           ),
         ),
       body: Column(
@@ -78,6 +99,7 @@ class _MainPage extends State<MainPage> {
           ),
           HorizontalMenu(
             menus: const [
+              'Your News',
               'All',
               'Economics',
               'Entertainment',

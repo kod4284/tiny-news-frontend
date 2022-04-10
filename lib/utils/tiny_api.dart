@@ -7,6 +7,9 @@ String newsUrl = "https://tinynews.ananthd.dev/articles/";
 
 String _getNewsUrl({required String topic, required int pageSize}) {
   String newUrl = newsUrl + topic + "?limit=" + pageSize.toString();
+  if (topic == "Your News") {
+    newUrl = "https://tinynews.ananthd.dev/articles/preferenced";
+  }
   return newUrl;
 }
 
@@ -14,7 +17,7 @@ class Api {
   static Future<List<Article>> fetchNews({ required String topic, int pageSize = 15}) async {
     final response = await http.get(
         Uri.parse(_getNewsUrl(
-            topic: topic,
+            topic: topic == "All" ? "all": topic,
             pageSize: pageSize
         )),
     );
