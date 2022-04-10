@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:localstore/localstore.dart';
 
 import 'widgets/pages/main_page.dart';
+import 'widgets/pages/onboarding_page.dart';
 
 class MyHttpOverrides extends HttpOverrides{
   @override
@@ -54,9 +55,10 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.white,
         ),
       ),
-      home: const DefaultTextStyle(
+      home: DefaultTextStyle(
         style: TextStyle(color: Colors.white),
-        child: MainPage(),
+        child: OnBoardingPage(),
+        // child: MainPage(),
       )
     );
   }
