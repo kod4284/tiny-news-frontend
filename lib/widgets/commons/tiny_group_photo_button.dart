@@ -33,7 +33,6 @@ class _TinyGroupPhotoButtonState extends State<TinyGroupPhotoButton> {
   void initState() {
     super.initState();
     _selected = widget.selected ?? [];
-    print(widget.buttonList);
   }
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class _TinyGroupPhotoButtonState extends State<TinyGroupPhotoButton> {
           return Container(
             width: 100,
             decoration: selected ? BoxDecoration(
-                border: Border.all(color: Colors.blueAccent, width: 2.5)
+                border: Border.all(color: Colors.blueAccent, width: 4)
             ): null,
             child: Image(
                 width: 100,

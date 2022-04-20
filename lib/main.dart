@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:localstore/localstore.dart';
 
-import 'widgets/pages/main_page.dart';
 import 'widgets/pages/onboarding_page.dart';
 
 class MyHttpOverrides extends HttpOverrides{
@@ -19,14 +18,23 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
-  final db = Localstore.instance.collection("storage").doc("settings");
-  final collection = await db.get();
-  if (collection == null) {
-    db.set({
+  final db = Localstore.instance.collection("storage");
+  final settingDB = db.doc("settings");
+  final preferencesDB = db.doc("preferences");
+  final settingCollection = await settingDB.get();
+  final preferencesCollection = await preferencesDB.get();
+  if (settingCollection == null) {
+    settingDB.set({
       "autoplay": false,
       "volume": 1,
       "pitch": 1,
       "rate": 1.4,
+    });
+  }
+  if (preferencesCollection == null) {
+    preferencesDB.set({
+      "categories": [],
+      "broadcasters": []
     });
   }
 }
