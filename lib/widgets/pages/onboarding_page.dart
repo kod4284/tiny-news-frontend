@@ -78,7 +78,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   color: Colors.black,
                 ),
                 Text(
-                  "The best stories from the source you love, selected just for you. The more you read, the more personalized your news becomes.",
+                  "The best stories from the sources you love, selected just for you. The more you read, the more personalized your news becomes.",
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.black87, fontSize: 14, height: 1.2),
                 )
@@ -114,7 +114,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
           body:
-          "Make TinyNews uniquely yours by setting your favorite topic now.",
+          "Make Tiny News uniquely yours by setting your favorite topics now.",
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
             fullScreen: true,
@@ -146,7 +146,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
           body:
-          "Make TinyNews uniquely yours by setting your favorite broadcaster now.",
+          "Make TinyNews uniquely yours by setting your favorite broadcasters now.",
           decoration: pageDecoration.copyWith(
             contentMargin: const EdgeInsets.symmetric(horizontal: 16),
             fullScreen: true,

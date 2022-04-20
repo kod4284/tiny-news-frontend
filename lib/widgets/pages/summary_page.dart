@@ -22,9 +22,17 @@ class SummaryPage extends StatelessWidget {
         ),
         body: Center(
           child: Container(
-            padding: const EdgeInsets.only(top: 20),
             child: Column(
               children: [
+                Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(bottom: 10.0),
+                    child: const Image(
+                        width: double.infinity,
+                        image: AssetImage('images/ad.png'),
+                        fit: BoxFit.contain
+                    )
+                ),
                 Expanded(
                   child: ListView(
                     children: [

@@ -76,6 +76,7 @@ flutter:
    - images/yahoo.png
    - images/9to5mac.png
    - images/politico.png
+   - images/ad.png
    - .env
   #   - images/a_dot_ham.jpeg
 

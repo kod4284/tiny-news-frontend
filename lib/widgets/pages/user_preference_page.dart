@@ -19,8 +19,7 @@ class _UserPreferencePageState extends State<UserPreferencePage> {
           title: const Text('User Preference'),
         ),
         body: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
                 Container(
                   padding: EdgeInsets.only(left: 10),
@@ -92,6 +91,7 @@ class _UserPreferencePageState extends State<UserPreferencePage> {
                       }
                       return Container(
                         alignment: Alignment.center,
+                        padding: EdgeInsets.only(bottom: 30),
                         child: TinyGroupPhotoButton(
                           buttonList: [
                             "latimes.com",

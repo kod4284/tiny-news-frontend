@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  late Future<List<Article>> futureArticleList;
+  late Future<List<Article>> futureArticleList = [] as Future<List<Article>>;
 
   @override
   void initState() {

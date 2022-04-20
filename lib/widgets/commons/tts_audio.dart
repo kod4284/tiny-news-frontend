@@ -196,7 +196,6 @@ class _TTSAudioState extends State<TTSAudio> {
               ),
             ),
             _buildSliders(),
-            if (isAndroid) _getMaxSpeechInputLengthSection(),
           ],
         ),
       ),

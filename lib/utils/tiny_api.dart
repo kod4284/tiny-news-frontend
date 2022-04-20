@@ -1,24 +1,45 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:localstore/localstore.dart';
 
 String newsUrl = "https://tinynews.ananthd.dev/articles/";
 
-String _getNewsUrl({required String topic, required int pageSize}) {
+String _getNewsUrl({required String topic, required int pageSize, List<String>? topics, List<String>? broadcasters}) {
   String newUrl = newsUrl + topic + "?limit=" + pageSize.toString();
   if (topic == "Your News") {
-    newUrl = "https://tinynews.ananthd.dev/articles/preferenced";
+    if (topics?.length != 0 || broadcasters?.length != 0) {
+      newUrl = "https://tinynews.ananthd.dev/articles/preference?";
+      topics?.forEach((e) => newUrl += ("&categories=" + e));
+      broadcasters?.forEach((e) => newUrl += ("&broadcasters=" + e));
+    } else {
+      newUrl = "Please select your preferences in the setting page.";
+    }
   }
   return newUrl;
 }
 
 class Api {
   static Future<List<Article>> fetchNews({ required String topic, int pageSize = 15}) async {
+    final db = Localstore.instance.collection("storage");
+    final preferencesDB = db.doc("preferences");
+    final pCollection = await preferencesDB.get();
+    List<String> topics = pCollection?["categories"]?.cast<String>();
+    List<String> broadcasters = pCollection?["broadcasters"]?.cast<String>();
+    if (topic == "Your News") {
+      print(topics);
+      if (topics.length == 0 && broadcasters.length == 0) {
+        throw Exception("Please select your preferences in the setting page.");
+      }
+    }
     final response = await http.get(
         Uri.parse(_getNewsUrl(
             topic: topic == "All" ? "all": topic,
-            pageSize: pageSize
+            pageSize: pageSize,
+            topics: topics,
+            broadcasters: broadcasters
         )),
     );
     if (response.statusCode == 200) {
