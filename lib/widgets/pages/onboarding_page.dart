@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:tiny_news/widgets/commons/tiny_group_button.dart';
 import 'package:tiny_news/widgets/commons/tiny_group_photo_button.dart';
+import 'package:localstore/localstore.dart';
 
 import 'package:tiny_news/widgets/pages/main_page.dart';
 
@@ -13,6 +14,8 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
+  List<String> _categories = [];
+  List<String> _broadcasters = [];
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
@@ -20,14 +23,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  // Widget _buildImage(String assetName, [double width = 350]) {
-  //   return Image.asset('assets/$assetName', width: width);
-  // }
 
   @override
   Widget build(BuildContext context) {
     const bodyStyle = TextStyle(color: Colors.black87, fontSize: 16.0);
-
     const pageDecoration = const PageDecoration(
       titleTextStyle: TextStyle(color: Colors.black87, fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
@@ -78,7 +77,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 Divider(
                   color: Colors.black,
                 ),
-                Spacer(),
                 Text(
                   "The best stories from the source you love, selected just for you. The more you read, the more personalized your news becomes.",
                   textAlign: TextAlign.right,
@@ -87,7 +85,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               ],
             ),
           ),
-          decoration: pageDecoration,
+          decoration: pageDecoration.copyWith(
+            imageFlex: 12,
+          ),
         ),
         PageViewModel(
           title: "Customize your News",
@@ -108,8 +108,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 "Pets",
                 "Technologies"
               ],
-              selected: ["Science"],
-              onSelected: (e) => print(e),
+              onSelected: (e) => setState(() => {
+                _categories = e
+              }),
             ),
           ),
           body:
@@ -137,8 +138,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 "theguardian.com",
                 "yahoo.com",
               ],
-              selected: [],
-              onSelected: (e) => print(e),
+              onSelected: (e) => {
+                setState(() => {
+                  _broadcasters = e
+                })
+              },
             ),
           ),
           body:
@@ -152,7 +156,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
 
       ],
-      onDone: () => _onIntroEnd(context),
+      onDone: ()
+      {
+        final db = Localstore.instance.collection("storage").doc("preferences");
+        db.set(
+          {
+            "categories": _categories,
+            "broadcasters": _broadcasters,
+          }
+        );
+        _onIntroEnd(context);
+      },
       onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       // showSkipButton: true,
       skipOrBackFlex: 0,

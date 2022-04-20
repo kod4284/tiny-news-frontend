@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:tiny_news/widgets/commons/tiny_group_button.dart';
 import 'package:tiny_news/widgets/commons/tiny_group_photo_button.dart';
+import 'package:localstore/localstore.dart';
 
 class UserPreferencePage extends StatefulWidget {
   const UserPreferencePage({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class UserPreferencePage extends StatefulWidget {
 }
 
 class _UserPreferencePageState extends State<UserPreferencePage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,23 +33,46 @@ class _UserPreferencePageState extends State<UserPreferencePage> {
                 Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(bottom: 10),
-                  child: TinyGroupButton(
-                    buttonList: [
-                      "Economics",
-                      "Entertainment",
-                      "Health",
-                      "Lifestyles",
-                      "Politics",
-                      "Science",
-                      "Sports",
-                      "Foods",
-                      "Beauty",
-                      "Business",
-                      "Pets",
-                      "Technologies"
-                    ],
-                    selected: ["Science"],
-                    onSelected: (e) => print(e),
+                  child: FutureBuilder(
+                      future: Localstore.instance.collection("storage").doc("preferences").get(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData){
+                          return Text("loading...");
+                        }
+                        print(snapshot.data);
+                        return Container(
+                          alignment: Alignment.center,
+                          child: TinyGroupButton(
+                            buttonList: [
+                              "Economics",
+                              "Entertainment",
+                              "Health",
+                              "Lifestyles",
+                              "Politics",
+                              "Science",
+                              "Sports",
+                              "Foods",
+                              "Beauty",
+                              "Business",
+                              "Pets",
+                              "Technologies"
+                            ],
+                            selected: (snapshot.data as dynamic)!['categories']?.cast<String>(),
+                            onSelected: (e) {
+                                () async {
+                                  final db = Localstore.instance.collection("storage").doc("preferences");
+                                  final temp = await db.get();
+                                  db.set(
+                                    {
+                                      "categories": e,
+                                      "broadcasters": temp!["broadcasters"],
+                                    },
+                                  );
+                              }();
+                            },
+                          )
+                        );
+                      }
                   ),
                 ),
                 Divider(color: Colors.white,),
@@ -59,24 +84,43 @@ class _UserPreferencePageState extends State<UserPreferencePage> {
                     style: TextStyle(fontSize: 25),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  child: TinyGroupPhotoButton(
-                    buttonList: [
-                      "latimes.com",
-                      "cnn.com",
-                      "foxnews.com",
-                      "theatlantic.com",
-                      "politico.com",
-                      "9to5mac.com",
-                      "abc.com",
-                      "theguardian.com",
-                      "yahoo.com",
-                    ],
-                    selected: [],
-                    onSelected: (e) => print(e),
+                FutureBuilder(
+                  future: Localstore.instance.collection("storage").doc("preferences").get(),
+                  builder: (context, snapshot) {
+                      if (!snapshot.hasData){
+                        return Text("loading...");
+                      }
+                      return Container(
+                        alignment: Alignment.center,
+                        child: TinyGroupPhotoButton(
+                          buttonList: [
+                            "latimes.com",
+                            "cnn.com",
+                            "foxnews.com",
+                            "theatlantic.com",
+                            "politico.com",
+                            "9to5mac.com",
+                            "abc.com",
+                            "theguardian.com",
+                            "yahoo.com",
+                          ],
+                          selected: (snapshot.data as dynamic)!['broadcasters']?.cast<String>(),
+                          onSelected: (e) {
+                            () async {
+                              final db = Localstore.instance.collection("storage").doc("preferences");
+                              final temp = await db.get();
+                              db.set(
+                                  {
+                                    "categories": temp!["categories"],
+                                    "broadcasters": e,
+                                  },
+                              );
+                            }();
+                          },
+                        ),
+                      );
+                    }
                   ),
-                )
               ],
             )
         )
